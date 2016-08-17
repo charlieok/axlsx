@@ -15,6 +15,10 @@ module Axlsx
     attr_reader :scatter_style
     alias :scatterStyle :scatter_style
 
+    def show_lines?
+      [:line, :lineMarker].include?(scatter_style)
+    end
+
     # the x value axis
     # @return [ValAxis]
     def x_val_axis

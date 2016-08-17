@@ -44,8 +44,17 @@ module Axlsx
           str << '<c:spPr><a:solidFill>'
           str << '<a:srgbClr val="' << color << '"/>'
           str << '</a:solidFill>'
-          str << '<a:ln><a:solidFill>'
-          str << '<a:srgbClr val="' << color << '"/></a:solidFill></a:ln>'
+          str << '<a:ln>'
+          if chart.show_lines?
+            str << '<a:solidFill>'
+            str << '<a:srgbClr val="' << color << '"/>'
+            str << '</a:solidFill>'
+          else
+            str << '<a:noFill>'
+            str << '<a:srgbClr val="' << color << '"/>'
+            str << '</a:noFill>'
+          end
+          str << '</a:ln>'
           str << '</c:spPr>'
           str << '<c:marker>'
           str << '<c:spPr><a:solidFill>'
@@ -55,6 +64,12 @@ module Axlsx
           str << '<a:srgbClr val="' << color << '"/></a:solidFill></a:ln>'
           str << '</c:spPr>'
           str << '</c:marker>'
+        elsif !chart.show_lines?
+          str << '<c:spPr>'
+          str << '<a:ln w="0">'
+          str << '<a:noFill/>'
+          str << '</a:ln>'
+          str << '</c:spPr>'
         end
         @xData.to_xml_string(inner_str) unless @xData.nil?
         @yData.to_xml_string(inner_str) unless @yData.nil?
